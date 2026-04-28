@@ -59,6 +59,14 @@ class Init:
         "collection.community",
     )
 
+    playbook_resources: tuple[str, ...] = (
+        "common.play-argspec",
+        "playbook.examples",
+        "playbook.inventory-examples",
+        "playbook.ci",
+        "playbook.collection",
+    )
+
     def __init__(
         self,
         config: Config,
@@ -499,8 +507,12 @@ class Init:
                 *self.common_resources,
                 *self.collection_resources,
             )
-        else:
-            resources = (f"{self._project}_project", *self.common_resources)
+        else:  # playbook
+            resources = (
+                f"{self._project}_project",
+                *self.common_resources,
+                *self.playbook_resources,
+            )
 
         walker = Walker(
             resources=resources,
