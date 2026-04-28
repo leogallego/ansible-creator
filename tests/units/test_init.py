@@ -190,6 +190,39 @@ def test_run_success_for_collection(
     assert r"Warning: re-initializing existing directory" in result, result
 
 
+def test_run_success_for_minimal_collection(
+    capsys: pytest.CaptureFixture[str],
+    tmp_path: Path,
+    cli_args: ConfigDict,
+) -> None:
+    """Test Init.run() with --minimal for collection.
+
+    Args:
+        capsys: Pytest fixture to capture stdout and stderr.
+        tmp_path: Temporary directory path.
+        cli_args: Dictionary, partial Init class object.
+    """
+    cli_args["project"] = "collection"
+    cli_args["minimal"] = True
+    init = Init(
+        Config(**cli_args),
+    )
+    init.run()
+    result = capsys.readouterr().out
+
+    # check stdout
+    assert r"Note: collection project created" in result
+
+    # recursively assert files created
+    cmp = dircmp(
+        str(tmp_path),
+        str(FIXTURES_DIR / "collection_minimal"),
+        ignore=[".DS_Store", ".ansible"],
+    )
+    diff = has_differences(dcmp=cmp, errors=[])
+    assert diff == [], diff
+
+
 def test_run_success_ansible_project(
     capsys: pytest.CaptureFixture[str],
     tmp_path: Path,
