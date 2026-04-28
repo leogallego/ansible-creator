@@ -501,6 +501,8 @@ class Init:
 
         if self._project == "execution_env":
             resources = (f"{self._project}_project", "common.ee-ci")
+        elif self._minimal:
+            resources = (f"{self._project}_project", "common.gitignore")
         elif self._project == "collection":
             resources = (
                 f"{self._project}_project",
