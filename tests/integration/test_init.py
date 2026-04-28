@@ -130,6 +130,79 @@ def test_run_init_basic(cli: CliRunCallable, tmp_path: Path) -> None:
     assert re.search(r"The flag `--no-overwrite` restricts overwriting.", result.stderr) is not None
 
 
+def test_run_init_minimal_collection(
+    cli: CliRunCallable,
+    tmp_path: Path,
+) -> None:
+    """Test ansible-creator init collection with --minimal flag.
+
+    Args:
+        cli: The cli fixture.
+        tmp_path: Temporary directory path.
+    """
+    result = cli(
+        f"{CREATOR_BIN} init collection testns.testcol"
+        f" {tmp_path} --minimal",
+    )
+    assert result.returncode == 0
+    assert "Note: collection project created" in result.stdout
+
+    # Essential files must exist
+    assert (tmp_path / "galaxy.yml").exists()
+    assert (tmp_path / "README.md").exists()
+    assert (tmp_path / "meta" / "runtime.yml").exists()
+    assert (tmp_path / "plugins" / "modules" / "__init__.py").exists()
+    assert (tmp_path / ".gitignore").exists()
+
+    # Non-essential files must NOT exist
+    assert not (tmp_path / ".devcontainer").exists()
+    assert not (tmp_path / ".vscode").exists()
+    assert not (tmp_path / "devfile.yaml").exists()
+    assert not (tmp_path / "roles").exists()
+    assert not (tmp_path / "extensions").exists()
+    assert not (tmp_path / ".github").exists()
+    assert not (tmp_path / "pyproject.toml").exists()
+    assert not (tmp_path / "CODE_OF_CONDUCT.md").exists()
+    assert not (tmp_path / "plugins" / "action" / "sample_action.py").exists()
+    assert not (tmp_path / "plugins" / "filter" / "sample_filter.py").exists()
+
+
+def test_run_init_minimal_playbook(
+    cli: CliRunCallable,
+    tmp_path: Path,
+) -> None:
+    """Test ansible-creator init playbook with --minimal flag.
+
+    Args:
+        cli: The cli fixture.
+        tmp_path: Temporary directory path.
+    """
+    result = cli(
+        f"{CREATOR_BIN} init playbook testns.testcol"
+        f" {tmp_path} --minimal",
+    )
+    assert result.returncode == 0
+    assert "Note: playbook project created" in result.stdout
+
+    # Essential files must exist
+    assert (tmp_path / "site.yml").exists()
+    assert (tmp_path / "ansible.cfg").exists()
+    assert (tmp_path / "inventory" / "hosts.yml").exists()
+    assert (tmp_path / "collections" / "requirements.yml").exists()
+    assert (tmp_path / ".gitignore").exists()
+
+    # Non-essential files must NOT exist
+    assert not (tmp_path / ".devcontainer").exists()
+    assert not (tmp_path / ".vscode").exists()
+    assert not (tmp_path / "devfile.yaml").exists()
+    assert not (tmp_path / "linux_playbook.yml").exists()
+    assert not (tmp_path / "network_playbook.yml").exists()
+    assert not (tmp_path / ".github").exists()
+    assert not (tmp_path / "collections" / "ansible_collections").exists()
+    assert not (tmp_path / "inventory" / "host_vars").exists()
+    assert not (tmp_path / "argspec_validation_plays.yml").exists()
+
+
 def test_run_init_ee(cli: CliRunCallable, tmp_path: Path) -> None:
     """Test running ansible-creator init for ee_project.
 
