@@ -248,6 +248,14 @@ class Parser:
                 "This flag is deprecated and will be removed soon."
             ),
         )
+        parser.add_argument(
+            "-m",
+            "--minimal",
+            default=False,
+            dest="minimal",
+            action="store_true",
+            help="Scaffold only essential project structure (no samples, CI, devcontainer, etc.).",
+        )
         self._add_overwrite(parser)
 
     def _add_args_plugin_common(self, parser: argparse.ArgumentParser) -> None:

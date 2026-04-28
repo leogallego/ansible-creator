@@ -52,6 +52,7 @@ class ConfigDict(TypedDict, total=False):
     force: bool
     overwrite: bool
     no_overwrite: bool
+    minimal: bool
     ee_config: str | None
     ee_config_file: str | None
     base_image: str
@@ -82,6 +83,7 @@ def fixture_cli_args(tmp_path: Path, output: Output) -> ConfigDict:
         "force": False,
         "overwrite": False,
         "no_overwrite": False,
+        "minimal": False,
     }
 
 

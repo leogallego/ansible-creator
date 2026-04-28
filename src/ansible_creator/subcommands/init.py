@@ -64,6 +64,7 @@ class Init:
         self._force = config.force
         self._overwrite = config.overwrite
         self._no_overwrite = config.no_overwrite
+        self._minimal = config.minimal
         self._creator_version = config.creator_version
         self._project = config.project
         self._templar = Templar()
