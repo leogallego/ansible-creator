@@ -141,8 +141,7 @@ def test_run_init_minimal_collection(
         tmp_path: Temporary directory path.
     """
     result = cli(
-        f"{CREATOR_BIN} init collection testns.testcol"
-        f" {tmp_path} --minimal",
+        f"{CREATOR_BIN} init collection testns.testcol {tmp_path} --minimal",
     )
     assert result.returncode == 0
     assert "Note: collection project created" in result.stdout
@@ -178,8 +177,7 @@ def test_run_init_minimal_playbook(
         tmp_path: Temporary directory path.
     """
     result = cli(
-        f"{CREATOR_BIN} init playbook testns.testcol"
-        f" {tmp_path} --minimal",
+        f"{CREATOR_BIN} init playbook testns.testcol {tmp_path} --minimal",
     )
     assert result.returncode == 0
     assert "Note: playbook project created" in result.stdout
