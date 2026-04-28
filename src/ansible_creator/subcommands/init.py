@@ -49,6 +49,16 @@ class Init:
         "common.ai",
     )
 
+    collection_resources: tuple[str, ...] = (
+        "common.role",
+        "collection.samples",
+        "collection.ci",
+        "collection.eda",
+        "collection.molecule",
+        "collection.tooling",
+        "collection.community",
+    )
+
     def __init__(
         self,
         config: Config,
@@ -484,8 +494,11 @@ class Init:
         if self._project == "execution_env":
             resources = (f"{self._project}_project", "common.ee-ci")
         elif self._project == "collection":
-            self.common_resources = (*self.common_resources, "common.role")
-            resources = (f"{self._project}_project", *self.common_resources)
+            resources = (
+                f"{self._project}_project",
+                *self.common_resources,
+                *self.collection_resources,
+            )
         else:
             resources = (f"{self._project}_project", *self.common_resources)
 

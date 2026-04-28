@@ -37,7 +37,7 @@ class Add:
         self._role_name: str = config.role_name
         self._plugin_type: str = config.plugin_type
         self._resource_id: str = f"common.{self._resource_type}"
-        self._plugin_id: str = f"collection_project.plugins.{self._plugin_type}"
+        self._plugin_id: str = f"collection.samples.plugins.{self._plugin_type}"
         self._plugin_name: str = config.plugin_name
         self._add_path: Path = Path(config.path)
         self._force = config.force
@@ -279,8 +279,8 @@ class Add:
         plugin_path: Path,
     ) -> None:
         resources = (
-            f"collection_project.plugins.{self._plugin_type}",
-            "collection_project.plugins.modules",
+            f"collection.samples.plugins.{self._plugin_type}",
+            "collection.samples.plugins.modules",
         )
         module_path = self._add_path / "plugins" / "modules"
         module_path.mkdir(parents=True, exist_ok=True)
@@ -292,7 +292,7 @@ class Add:
         template_data: TemplateData,
         plugin_path: Path,
     ) -> None:
-        resources = (f"collection_project.plugins.{self._plugin_type}",)
+        resources = (f"collection.samples.plugins.{self._plugin_type}",)
         self._perform_plugin_scaffold(resources, template_data, plugin_path)
 
     def _perform_lookup_plugin_scaffold(
@@ -300,7 +300,7 @@ class Add:
         template_data: TemplateData,
         plugin_path: Path,
     ) -> None:
-        resources = (f"collection_project.plugins.{self._plugin_type}",)
+        resources = (f"collection.samples.plugins.{self._plugin_type}",)
         self._perform_plugin_scaffold(resources, template_data, plugin_path)
 
     def _perform_module_plugin_scaffold(
@@ -308,7 +308,7 @@ class Add:
         template_data: TemplateData,
         plugin_path: Path,
     ) -> None:
-        resources = (f"collection_project.plugins.{self._plugin_type}",)
+        resources = (f"collection.samples.plugins.{self._plugin_type}",)
         self._perform_plugin_scaffold(resources, template_data, plugin_path)
 
     def _perform_test_plugin_scaffold(
@@ -316,7 +316,7 @@ class Add:
         template_data: TemplateData,
         plugin_path: Path,
     ) -> None:
-        resources = (f"collection_project.plugins.{self._plugin_type}",)
+        resources = (f"collection.samples.plugins.{self._plugin_type}",)
         self._perform_plugin_scaffold(resources, template_data, plugin_path)
 
     def _perform_plugin_scaffold(
