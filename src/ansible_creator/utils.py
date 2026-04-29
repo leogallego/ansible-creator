@@ -453,12 +453,12 @@ class Copier:
             paths: A list of paths to create in the destination.
         """
         for path in paths:  # pragma: no cover
-            path.remove_existing()
-
             if path.source.is_dir():
+                if path.dest.exists() and not path.dest.is_dir():
+                    path.remove_existing()
                 path.dest.mkdir(parents=True, exist_ok=True)
-
             elif path.source.is_file():
+                path.remove_existing()
                 self._copy_file(path)
 
 

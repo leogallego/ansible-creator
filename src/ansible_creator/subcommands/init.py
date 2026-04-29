@@ -49,6 +49,24 @@ class Init:
         "common.ai",
     )
 
+    collection_resources: tuple[str, ...] = (
+        "common.role",
+        "collection.samples",
+        "collection.ci",
+        "collection.eda",
+        "collection.molecule",
+        "collection.tooling",
+        "collection.community",
+    )
+
+    playbook_resources: tuple[str, ...] = (
+        "common.play-argspec",
+        "playbook.examples",
+        "playbook.inventory-examples",
+        "playbook.ci",
+        "playbook.collection",
+    )
+
     def __init__(
         self,
         config: Config,
@@ -64,6 +82,7 @@ class Init:
         self._force = config.force
         self._overwrite = config.overwrite
         self._no_overwrite = config.no_overwrite
+        self._minimal = config.minimal
         self._creator_version = config.creator_version
         self._project = config.project
         self._templar = Templar()
@@ -482,11 +501,20 @@ class Init:
 
         if self._project == "execution_env":
             resources = (f"{self._project}_project", "common.ee-ci")
+        elif self._minimal:
+            resources = (f"{self._project}_project", "common.gitignore")
         elif self._project == "collection":
-            self.common_resources = (*self.common_resources, "common.role")
-            resources = (f"{self._project}_project", *self.common_resources)
-        else:
-            resources = (f"{self._project}_project", *self.common_resources)
+            resources = (
+                f"{self._project}_project",
+                *self.common_resources,
+                *self.collection_resources,
+            )
+        else:  # playbook
+            resources = (
+                f"{self._project}_project",
+                *self.common_resources,
+                *self.playbook_resources,
+            )
 
         walker = Walker(
             resources=resources,
